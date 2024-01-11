@@ -1,0 +1,9 @@
+body {
+  font-family: sans-serif;
+}
+
+.options-container {
+  display: flex;
+}
+
+
