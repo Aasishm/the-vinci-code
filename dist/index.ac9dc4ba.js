@@ -584,6 +584,8 @@ var _stylesCss = require("./styles.css");
   b. See Leaderboard
   c. Update Name
 */ const myGameContainer = document.getElementById("game");
+const $formElement = document.querySelector("form");
+const $nameInputElement = $formElement.querySelector("input");
 class Game {
     constructor(container){
         this.container = container;
@@ -592,8 +594,12 @@ class Game {
         return Math.floor(Math.random() * 10);
     }
     start() {
-        this.name = prompt("Enter your name:") || "Guest";
-        this.displayMenu();
+        $formElement.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            this.name = $nameInputElement.value;
+            console.log(this.name);
+            this.displayMenu();
+        });
     }
     handleMenuClick = (function(event) {
         switch(event.target.dataset?.val){
@@ -636,15 +642,36 @@ class Game {
     generateNumbersForLevel() {
         for(let i = 0; i < this.level; i++)this.generatedNumbers.push(this.randomNumber());
     }
-    displayNumbersForLevel() {
-        for(let i = 0; i < this.level; i++)alert(this.generatedNumbers[i]);
+    displayNumbersForLevel(curLevel = 0) {
+        // alert(this.generatedNumbers[i]);
+        return new Promise((resolve)=>{
+            const handleLevels = ()=>{
+                curLevel++;
+                $numberButton.remove();
+                setTimeout(()=>{
+                    if (curLevel < this.level) this.displayNumbersForLevel(curLevel).then(()=>resolve());
+                    else resolve();
+                }, 0);
+            };
+            var numberElement = `<button id='button-${curLevel}'>${this.generatedNumbers[curLevel]}</button>`;
+            this.container.insertAdjacentHTML("afterend", numberElement);
+            var $numberButton = document.getElementById("button-" + curLevel);
+            $numberButton.addEventListener("click", ()=>{
+                handleLevels();
+            });
+        });
     }
     getNumbersFromUser() {
-        for(let i = 0; i < this.level; i++){
-            let enteredValue = prompt("Enter values in order one at a time: (press enter after every value)");
-            if (enteredValue === "" || enteredValue === null) enteredValue = NaN;
-            this.enteredNumbers.push(Number(enteredValue));
-        }
+        return new Promise((resolve)=>{
+            let enteredPromises = [];
+            for(let i = 0; i < this.level; i++){
+                let enteredValue = prompt("Enter values in order one at a time: (press enter after every value)");
+                if (enteredValue === "" || enteredValue === null) enteredValue = NaN;
+                this.enteredNumbers.push(Number(enteredValue));
+                enteredPromises.push(new Promise((resolve)=>setTimeout(resolve, 0)));
+            }
+            Promise.all(enteredPromises).then(()=>resolve());
+        });
     }
     verifyLevel() {
         for(let i = 0; i < this.level; i++){
@@ -654,12 +681,14 @@ class Game {
     }
     gameLoop() {
         this.generateNumbersForLevel();
-        this.displayNumbersForLevel();
-        this.getNumbersFromUser();
-        if (this.verifyLevel()) {
-            this.updateLevel(this.level + 1);
-            this.gameLoop();
-        } else alert(`Your score is: ${this.level}`);
+        this.displayNumbersForLevel().then(()=>{
+            this.getNumbersFromUser().then(()=>{
+                if (this.verifyLevel()) {
+                    this.updateLevel(this.level + 1);
+                    this.gameLoop();
+                } else alert(`Your score is: ${this.level}`);
+            });
+        });
     }
 }
 let myGameInstance = new Game(myGameContainer);

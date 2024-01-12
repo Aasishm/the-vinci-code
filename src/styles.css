@@ -6,4 +6,12 @@ body {
   display: flex;
 }
 
+button {
+  background-color: aliceblue;
+  border-radius: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+}
 

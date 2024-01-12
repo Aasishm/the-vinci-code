@@ -6,4 +6,10 @@ body {
   display: flex;
 }
 
+button {
+  background-color: #f0f8ff;
+  border-radius: 1em;
+  padding: .25em 1em;
+}
+
 /*# sourceMappingURL=index.4d663569.css.map */
