@@ -620,15 +620,15 @@ class Game {
     <ol>
       <div class='options-container'>
         <li>Start New Game</li>
-        <button data-val="1">Start New Game</button>
+        <button data-val="1">Start</button>
       </div>
       <div class='options-container'>
         <li>See Leaderboard</li>
-        <button data-val="2">See Leaderboard</button>
+        <button data-val="2">Leaderboard</button>
       </div>
       <div class='options-container'>
         <li>Update Name</li>
-        <button data-val="3">Update Name</button>
+        <button data-val="3">Update</button>
       </div>
     </ol>`;
         this.container.removeEventListener("click", this.handleMenuClick);
@@ -643,7 +643,6 @@ class Game {
         for(let i = 0; i < this.level; i++)this.generatedNumbers.push(this.randomNumber());
     }
     displayNumbersForLevel(curLevel = 0) {
-        // alert(this.generatedNumbers[i]);
         return new Promise((resolve)=>{
             const handleLevels = ()=>{
                 curLevel++;
