@@ -81,6 +81,13 @@ class Game {
   }
 
   displayNumbersForLevel(curLevel=0) {
+
+    let numberButton = document.getElementById('number-button')
+    // console.log(numberButton)
+    if (numberButton) {
+      numberButton.remove()
+    }
+
     return new Promise((resolve) => {
       const handleLevels = () => {
         curLevel++
@@ -97,6 +104,7 @@ class Game {
       var numberElement = `<button id='button-${curLevel}'>${this.generatedNumbers[curLevel]}</button>`
       this.container.insertAdjacentHTML('afterend', numberElement)
       var $numberButton = document.getElementById('button-' + curLevel)
+      $numberButton.id = 'number-button'
       $numberButton.addEventListener('click', () => {
         handleLevels()
       })
@@ -104,37 +112,41 @@ class Game {
   }
 
   getNumbersFromUser() {
+
+    const inputContainer = document.createElement('div')
+    document.body.appendChild(inputContainer)
+
     return new Promise((resolve) => {
       let enteredPromises = []
-      let inputContainer = document.createElement('div')
-      document.body.appendChild(inputContainer)
-      for (let i = 0; i < this.level; i++) {
+
+      const addInputField = (curLevel=0) => {
         let inputField = document.createElement('input')
         inputField.type = 'text'
         inputField.placeholder = 'Enter the value'
         inputContainer.appendChild(inputField)
-        // let enteredValue = prompt(
-        //   "Enter values in order one at a time: (press enter after every value)",
-        // );
-        // if (enteredValue === "" || enteredValue === null) {
-        //   enteredValue = NaN;
-        // }
-        // this.enteredNumbers.push(Number(enteredValue));
+
         enteredPromises.push(new Promise((resolveInput) => {
+          inputField.focus()
           inputField.addEventListener('change', () => {
             let enteredValue = inputField.value.trim()
             this.enteredNumbers.push(Number(enteredValue))
             inputContainer.removeChild(inputField)
-            // document.body.removeChild(inputContainer)
-            resolveInput()
+            if (curLevel + 1 < this.level) {
+              addInputField(curLevel + 1)
+            }
+            else{
+              resolveInput()
+              resolve()
+              document.body.removeChild(inputContainer)
+            }
           })
         }))
+
       }
-      Promise.all(enteredPromises).then(() => {
-        // inputContainer.remove()
-        document.body.removeChild(inputContainer)
-        resolve()
-      })
+      
+      addInputField()
+
+      Promise.all(enteredPromises).then(() => resolve())
     })
   }
 
