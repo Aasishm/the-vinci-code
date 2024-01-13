@@ -52,7 +52,7 @@ class Game {
       <div class='menu-container'>
         <div class='options-container'>
           <li>Start New Game</li>
-          <button data-val="1">Start</button>
+          <button data-val="1" id='start-button'>Start</button>
         </div>
         <div class='options-container'>
           <li>See Leaderboard</li>
@@ -157,6 +157,21 @@ class Game {
     return true;
   }
 
+  showResult() {
+    return new Promise((resolve) => {
+      let result = document.createElement('button')
+      result.textContent = `Your score is ${this.level}`
+      document.body.appendChild(result)
+      result.addEventListener('click', () => {
+        document.body.removeChild(result)
+        let startButton = document.getElementById('start-button')
+        startButton.removeAttribute('disabled')
+        resolve()
+      })
+
+    })
+  }
+
   gameLoop() {
     this.generateNumbersForLevel();
     this.displayNumbersForLevel().then(() => {
@@ -165,7 +180,10 @@ class Game {
           this.updateLevel(this.level + 1);
           this.gameLoop();
         } else {
-          alert(`Your score is: ${this.level}`);
+          this.showResult();
+          let startButton = document.getElementById('start-button')
+          startButton.setAttribute('disabled', 'disabled')
+          // alert(`Your score is: ${this.level}`);
         }
       })
     });

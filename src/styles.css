@@ -60,6 +60,13 @@ button {
   font-weight: bold;
 }
 
+button[disabled='disabled'] {
+  background-color: #ccc;
+  color: #666;
+  opacity: 0.7; 
+  cursor: not-allowed;
+}
+
 button:hover {
   background-color:#002ead;
   transition: 0.7s;
