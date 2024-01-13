@@ -43,7 +43,7 @@ class Game {
       case "3":
         this.updateName().then(() => this.displayMenu()).then(() => {
           let $updateInputElement = document.getElementById('update-input')
-          console.log($updateInputElement)
+          // console.log($updateInputElement)
           $updateInputElement.remove()
         })
     }
@@ -121,6 +121,7 @@ class Game {
       updateNameInput.type = 'text'
       updateNameInput.id = 'update-input'
       document.body.appendChild(updateNameInput)
+      updateNameInput.focus()
       updateNameInput.addEventListener('change', () => {
         this.name = updateNameInput.value || 'Guest'
         resolve()

@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"9zyo0":[function(require,module,exports) {
+})({"iZQ9B":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -226,11 +226,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
     var hostname = getHostname();
     var port = getPort();
-    var protocol = HMR_SECURE || location.protocol == "https:" && ![
-        "localhost",
-        "127.0.0.1",
-        "0.0.0.0"
-    ].includes(hostname) ? "wss" : "ws";
+    var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
     var ws;
     try {
         ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
@@ -619,7 +615,7 @@ class Game {
             case "3":
                 this.updateName().then(()=>this.displayMenu()).then(()=>{
                     let $updateInputElement = document.getElementById("update-input");
-                    console.log($updateInputElement);
+                    // console.log($updateInputElement)
                     $updateInputElement.remove();
                 });
         }
@@ -682,6 +678,7 @@ class Game {
             updateNameInput.type = "text";
             updateNameInput.id = "update-input";
             document.body.appendChild(updateNameInput);
+            updateNameInput.focus();
             updateNameInput.addEventListener("change", ()=>{
                 this.name = updateNameInput.value || "Guest";
                 resolve();
@@ -760,6 +757,6 @@ class Game {
 let myGameInstance = new Game(myGameContainer);
 myGameInstance.start();
 
-},{"./styles.css":"lW6qc"}],"lW6qc":[function() {},{}]},["9zyo0","aR1JP"], "aR1JP", "parcelRequirebaba")
+},{"./styles.css":"lW6qc"}],"lW6qc":[function() {},{}]},["iZQ9B","aR1JP"], "aR1JP", "parcelRequirebaba")
 
 //# sourceMappingURL=index.ac9dc4ba.js.map
