@@ -617,8 +617,11 @@ class Game {
                 console.log("Will Show Leaderboard Now...");
                 break;
             case "3":
-                this.name = prompt("Enter name to be updated:") || "Guest";
-                this.displayMenu();
+                this.updateName().then(()=>this.displayMenu()).then(()=>{
+                    let $updateInputElement = document.getElementById("update-input");
+                    console.log($updateInputElement);
+                    $updateInputElement.remove();
+                });
         }
     }).bind(this);
     displayMenu() {
@@ -635,7 +638,7 @@ class Game {
         </div>
         <div class='options-container'>
           <li>Update Name</li>
-          <button data-val="3">Update</button>
+          <button data-val="3" id='update-button'>Update</button>
         </div>
       </div>
     </ol>`;
@@ -669,6 +672,19 @@ class Game {
             $numberButton.id = "number-button";
             $numberButton.addEventListener("click", ()=>{
                 handleLevels();
+            });
+        });
+    }
+    updateName() {
+        return new Promise((resolve)=>{
+            let updateNameInput = document.createElement("input");
+            updateNameInput.placeholder = "Enter New Name";
+            updateNameInput.type = "text";
+            updateNameInput.id = "update-input";
+            document.body.appendChild(updateNameInput);
+            updateNameInput.addEventListener("change", ()=>{
+                this.name = updateNameInput.value || "Guest";
+                resolve();
             });
         });
     }
@@ -716,6 +732,8 @@ class Game {
                 document.body.removeChild(result);
                 let startButton = document.getElementById("start-button");
                 startButton.removeAttribute("disabled");
+                let updateButton = document.getElementById("update-button");
+                updateButton.removeAttribute("disabled");
                 resolve();
             });
         });
@@ -730,7 +748,9 @@ class Game {
                 } else {
                     this.showResult();
                     let startButton = document.getElementById("start-button");
+                    let updateButton = document.getElementById("update-button");
                     startButton.setAttribute("disabled", "disabled");
+                    updateButton.setAttribute("disabled", "disabled");
                 // alert(`Your score is: ${this.level}`);
                 }
             });
