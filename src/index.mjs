@@ -25,6 +25,8 @@ class Game {
       e.preventDefault()
       this.name = $nameInputElement.value
       console.log(this.name)
+      $nameInputElement.value = ''
+      $nameInputElement.focus()
       this.displayMenu()
     })
   }
@@ -102,17 +104,35 @@ class Game {
   getNumbersFromUser() {
     return new Promise((resolve) => {
       let enteredPromises = []
+      let inputContainer = document.createElement('div')
+      document.body.appendChild(inputContainer)
       for (let i = 0; i < this.level; i++) {
-        let enteredValue = prompt(
-          "Enter values in order one at a time: (press enter after every value)",
-        );
-        if (enteredValue === "" || enteredValue === null) {
-          enteredValue = NaN;
-        }
-        this.enteredNumbers.push(Number(enteredValue));
-        enteredPromises.push(new Promise((resolve) => setTimeout(resolve, 0)))
+        let inputField = document.createElement('input')
+        inputField.type = 'text'
+        inputField.placeholder = 'Enter the value'
+        inputContainer.appendChild(inputField)
+        // let enteredValue = prompt(
+        //   "Enter values in order one at a time: (press enter after every value)",
+        // );
+        // if (enteredValue === "" || enteredValue === null) {
+        //   enteredValue = NaN;
+        // }
+        // this.enteredNumbers.push(Number(enteredValue));
+        enteredPromises.push(new Promise((resolveInput) => {
+          inputField.addEventListener('change', () => {
+            let enteredValue = inputField.value.trim()
+            this.enteredNumbers.push(Number(enteredValue))
+            inputContainer.removeChild(inputField)
+            // document.body.removeChild(inputContainer)
+            resolveInput()
+          })
+        }))
       }
-      Promise.all(enteredPromises).then(() => resolve())
+      Promise.all(enteredPromises).then(() => {
+        // inputContainer.remove()
+        document.body.removeChild(inputContainer)
+        resolve()
+      })
     })
   }
 
