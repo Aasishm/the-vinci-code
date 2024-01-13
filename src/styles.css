@@ -1,3 +1,7 @@
+* {
+    text-align: center;
+}
+
 body {
   font-family: sans-serif;
   font-size: large;
@@ -9,9 +13,32 @@ body {
   color: white;
 }
 
+input {
+    box-sizing: border-box;
+    width: 20em;
+    height: 2em;
+    border: 2px solid #e8e7b6;
+    border-radius: 0.5em;
+}
+
+.form-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.menu-container {
+  display: grid;
+  top: 45%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 .options-container {
-  display: flex;
-  margin-top: 1em;
+    margin-top: 1em;
+    display: flex;
 }
 
 ol {
@@ -37,5 +64,3 @@ button:hover {
   background-color:#002ead;
   transition: 0.7s;
 }
-
-

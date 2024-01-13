@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"iZQ9B":[function(require,module,exports) {
+})({"9zyo0":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -226,7 +226,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
     var hostname = getHostname();
     var port = getPort();
-    var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
+    var protocol = HMR_SECURE || location.protocol == "https:" && ![
+        "localhost",
+        "127.0.0.1",
+        "0.0.0.0"
+    ].includes(hostname) ? "wss" : "ws";
     var ws;
     try {
         ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
@@ -596,7 +600,7 @@ class Game {
     start() {
         $formElement.addEventListener("submit", (e)=>{
             e.preventDefault();
-            this.name = $nameInputElement.value;
+            this.name = $nameInputElement.value || "Guest";
             console.log(this.name);
             $nameInputElement.value = "";
             $nameInputElement.focus();
@@ -618,19 +622,21 @@ class Game {
         }
     }).bind(this);
     displayMenu() {
-        this.container.innerHTML = `Welcome ${this.name},
+        this.container.innerHTML = `${this.name}
     <ol>
-      <div class='options-container'>
-        <li>Start New Game</li>
-        <button data-val="1">Start</button>
-      </div>
-      <div class='options-container'>
-        <li>See Leaderboard</li>
-        <button data-val="2">Leaderboard</button>
-      </div>
-      <div class='options-container'>
-        <li>Update Name</li>
-        <button data-val="3">Update</button>
+      <div class='menu-container'>
+        <div class='options-container'>
+          <li>Start New Game</li>
+          <button data-val="1">Start</button>
+        </div>
+        <div class='options-container'>
+          <li>See Leaderboard</li>
+          <button data-val="2">Leaderboard</button>
+        </div>
+        <div class='options-container'>
+          <li>Update Name</li>
+          <button data-val="3">Update</button>
+        </div>
       </div>
     </ol>`;
         this.container.removeEventListener("click", this.handleMenuClick);
@@ -717,6 +723,6 @@ class Game {
 let myGameInstance = new Game(myGameContainer);
 myGameInstance.start();
 
-},{"./styles.css":"lW6qc"}],"lW6qc":[function() {},{}]},["iZQ9B","aR1JP"], "aR1JP", "parcelRequirebaba")
+},{"./styles.css":"lW6qc"}],"lW6qc":[function() {},{}]},["9zyo0","aR1JP"], "aR1JP", "parcelRequirebaba")
 
 //# sourceMappingURL=index.ac9dc4ba.js.map

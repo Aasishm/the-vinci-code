@@ -23,7 +23,7 @@ class Game {
   start() {
     $formElement.addEventListener('submit',(e) => {
       e.preventDefault()
-      this.name = $nameInputElement.value
+      this.name = $nameInputElement.value || 'Guest'
       console.log(this.name)
       $nameInputElement.value = ''
       $nameInputElement.focus()
@@ -47,19 +47,21 @@ class Game {
   }.bind(this);
 
   displayMenu() {
-    this.container.innerHTML = `Welcome ${this.name},
+    this.container.innerHTML = `${this.name}
     <ol>
-      <div class='options-container'>
-        <li>Start New Game</li>
-        <button data-val="1">Start</button>
-      </div>
-      <div class='options-container'>
-        <li>See Leaderboard</li>
-        <button data-val="2">Leaderboard</button>
-      </div>
-      <div class='options-container'>
-        <li>Update Name</li>
-        <button data-val="3">Update</button>
+      <div class='menu-container'>
+        <div class='options-container'>
+          <li>Start New Game</li>
+          <button data-val="1">Start</button>
+        </div>
+        <div class='options-container'>
+          <li>See Leaderboard</li>
+          <button data-val="2">Leaderboard</button>
+        </div>
+        <div class='options-container'>
+          <li>Update Name</li>
+          <button data-val="3">Update</button>
+        </div>
       </div>
     </ol>`;
     this.container.removeEventListener("click", this.handleMenuClick);
