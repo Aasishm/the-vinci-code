@@ -57,6 +57,13 @@ button {
   box-shadow: 0 0 1px 1px #000;
 }
 
+button[disabled="disabled"] {
+  color: #666;
+  opacity: .7;
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+
 button:hover {
   background-color: #002ead;
   transition: all .7s;
